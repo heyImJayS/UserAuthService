@@ -83,13 +83,22 @@ public class SecurityConfig {
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
             throws Exception {
         //Every request that comes should be authenticated
+//        http
+//                .authorizeHttpRequests((authorize) -> authorize
+//                        .requestMatchers("/actuator/**").permitAll()
+//                        .anyRequest().authenticated()
+//                )
+//                // Form login handles the redirect to the login page from the
+//                // authorization server filter chain
+//                .formLogin(Customizer.withDefaults());
+
+        //Every Request will not be authenticated
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .anyRequest().authenticated()
-                )
-                // Form login handles the redirect to the login page from the
-                // authorization server filter chain
-                .formLogin(Customizer.withDefaults());
+                        .anyRequest().permitAll())
+                .formLogin(Customizer.withDefaults())
+                .cors(cors -> cors.disable())
+                .csrf(csrf -> csrf.disable()) ;
 
         return http.build();
     }
